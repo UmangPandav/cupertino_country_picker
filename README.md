@@ -170,5 +170,5 @@ Feel free to open issues or pull requests to improve this package.
 
 ## 📝 License
 
-MIT License. Use freely in your projects.
+This project is licensed under the [MIT License](LICENSE) — free to use and distribute. No restrictions, just give credit.
 

@@ -32,3 +32,5 @@ flutter:
           weight: 500
         - asset: assets/fonts/PublicSans-SemiBold.ttf
           weight: 600
+
+license: MIT
