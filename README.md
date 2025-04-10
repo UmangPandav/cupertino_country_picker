@@ -4,6 +4,8 @@ A beautiful, customizable **iOS-style country picker** built with Flutter's Cupe
 
 <p align="center">
   <img src="https://github.com/UmangPandav/cupertino_country_picker/blob/master/demo.gif" alt="Cupertino Country Picker Demo" width="300" />
+  <br />
+  <sub><i>Loading preview... if it doesn't show, click <a href="https://github.com/UmangPandav/cupertino_country_picker/blob/master/demo.gif" target="_blank">here</a></i></sub>
 </p>
 
 ---
