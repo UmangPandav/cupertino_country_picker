@@ -3,7 +3,7 @@
 A beautiful, customizable **iOS-style country picker** built with Flutter's Cupertino design system. Easily select countries with flags, calling codes, and search functionality. Perfect for apps that require region selection or phone number inputs.
 
 <p align="center">
-  <img src="https://github.com/UmangPandav/cupertino_country_picker/demo.gif" alt="Cupertino Country Picker Demo" width="300" />
+  <img src="https://github.com/UmangPandav/cupertino_country_picker/blob/master/demo.gif" alt="Cupertino Country Picker Demo" width="300" />
 </p>
 
 ---
