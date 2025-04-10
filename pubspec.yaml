@@ -1,5 +1,6 @@
 name: cupertino_country_picker
 description: "A beautifully designed iOS-style country picker for Flutter apps. Easily integrate a Cupertino-style country selector with search functionality, flags, dial codes, and a smooth user experience. Perfect for login screens, phone number inputs, and region-based features."
+repository: https://github.com/UmangPandav/cupertino_country_picker
 
 version: 1.0.0
 
