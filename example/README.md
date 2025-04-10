@@ -44,4 +44,3 @@ Taps a button → shows an iOS-style modal with country list → selects a count
 ## 📝 License
 
 MIT License © 2025 Umang Pandav
-```
