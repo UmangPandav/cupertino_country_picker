@@ -21,13 +21,13 @@ Future<void> showCupertinoCountryPicker({
 }) async{
   hideKeyboard(context: context);
 
-  final countryList = CountryHelper.countryList;
+  final countryList = CountryPickerHelper.countryList;
   final filteredCountryListNotifier = ValueNotifier(countryList);
 
   final searchController = TextEditingController();
 
   Future<void> onChange(String query) async{
-    filteredCountryListNotifier.value = CountryHelper.getListByQuery(query);
+    filteredCountryListNotifier.value = CountryPickerHelper.getListByQuery(query);
   }
 
   return await showModalBottomSheet(
@@ -40,122 +40,125 @@ Future<void> showCupertinoCountryPicker({
     backgroundColor: backgroundColor ?? context.theme.scaffoldBackgroundColor,
     shape: shape ?? RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(borderRadius))),
     builder: (context) {
-      return Container(
-        padding: EdgeInsets.all(defaultPadding),
-        child: SafeArea(
-          top: false,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                spacing: defaultPadding,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(titleText, style: titleTextStyle ?? context.titleMediumThick),
-                  CupertinoButton(
-                    minSize: 0,
-                    padding: EdgeInsets.zero,
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },
-                    child: Text(closeButtonText, style: closeButtonTextStyle ?? context.titleMediumThick.copyWith(color: Colors.red.shade600))
-                  ),
-                ],
-              ),
-              SizedBox(height: defaultPadding * 0.5),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+      return Theme(
+        data: context.theme,
+        child: Container(
+          padding: EdgeInsets.all(defaultPadding),
+          child: SafeArea(
+            top: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  spacing: defaultPadding,
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(boxShadow: context.boxShadow),
-                      child: TextFormField(
-                        cursorWidth: 1.5,
-                        cursorHeight: 18,
-                        onChanged: onChange,
-                        style: context.titleMedium,
-                        controller: searchController,
-                        cursorColor: context.theme.dividerColor,
-                        textInputAction: TextInputAction.search,
-                        cursorRadius: const Radius.circular(10000),
-                        keyboardAppearance: context.theme.colorScheme.brightness,
-                        onTapOutside: (event){
-                          hideKeyboard(context: context);
-                        },
-                        decoration: searchInputDecoration ?? InputDecoration(
-                          filled: true,
-                          isDense: true,
-                          hintText: 'Search',
-                          hoverColor: Colors.transparent,
-                          fillColor: cardColor ?? context.theme.cardColor,
-                          contentPadding: EdgeInsets.all(defaultPadding),
-                          hintStyle: context.titleMedium.copyWith(color: context.black50),
-                          disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius), borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius), borderSide: context.borderSide),
-                          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius), borderSide: context.borderSide),
-                          suffixIcon: CupertinoButton(
-                            minSize: 0,
-                            padding: EdgeInsets.zero,
-                            onPressed: (){
-                              searchController.clear();
-                              onChange('');
-                            },
-                            child: Icon(Icons.cancel_rounded, color: context.theme.dividerColor),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: defaultPadding),
-                    Flexible(
-                      child: ValueListenableBuilder(
-                        valueListenable: filteredCountryListNotifier,
-                        builder: (_, filteredList, __) {
-                          if (filteredList.isEmpty) {
-                            return Center(child: Text('Country not found', style: context.titleMedium));
-                          }
-                          return Container(
-                            decoration: context.boxDecoration.copyWith(color: cardColor),
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              physics: physics,
-                              itemCount: filteredList.length,
-                              itemBuilder: (context, index) {
-                                final data = filteredList[index];
-                                final isFirst = index == 0;
-                                final isLast = index == filteredList.length - 1;
-                                return ClipRRect(
-                                  borderRadius: BorderRadius.vertical(top: Radius.circular(isFirst ? borderRadius : 0), bottom: Radius.circular(isLast ? borderRadius : 0)),
-                                  child: FadeAnimation(
-                                    key: ValueKey(index),
-                                    child: CupertinoListTile(
-                                      onTap: () {
-                                        onCountryPicked(data);
-                                        Navigator.pop(context);
-                                      },
-                                      backgroundColorActivated: context.theme.dividerColor.withValues(alpha: 0.05),
-                                      padding: EdgeInsets.symmetric(vertical: defaultPadding * 0.5, horizontal: defaultPadding),
-                                      leading: ClipRRect(borderRadius: BorderRadius.circular(3), child: Image.asset(data.flag, width: 30, package: CountryHelper.packageName)),
-                                      title: Text(data.name, style: context.titleMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
-                                      trailing: Text(data.callingCode, style: context.titleMedium.copyWith(color: context.black50)),
-                                    ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return context.divider(height: 0);
-                              },
-                            ),
-                          );
-                        },
-                      ),
+                    Text(titleText, style: titleTextStyle ?? context.titleMediumThick),
+                    CupertinoButton(
+                      minSize: 0,
+                      padding: EdgeInsets.zero,
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      child: Text(closeButtonText, style: closeButtonTextStyle ?? context.titleMediumThick.copyWith(color: Colors.red.shade600))
                     ),
                   ],
                 ),
-              )
-            ],
+                SizedBox(height: defaultPadding * 0.5),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(boxShadow: context.boxShadow),
+                        child: TextFormField(
+                          cursorWidth: 1.5,
+                          cursorHeight: 18,
+                          onChanged: onChange,
+                          style: context.titleMedium,
+                          controller: searchController,
+                          cursorColor: context.theme.dividerColor,
+                          textInputAction: TextInputAction.search,
+                          cursorRadius: const Radius.circular(10000),
+                          keyboardAppearance: context.theme.colorScheme.brightness,
+                          onTapOutside: (event){
+                            hideKeyboard(context: context);
+                          },
+                          decoration: searchInputDecoration ?? InputDecoration(
+                            filled: true,
+                            isDense: true,
+                            hintText: 'Search',
+                            hoverColor: Colors.transparent,
+                            fillColor: cardColor ?? context.theme.cardColor,
+                            contentPadding: EdgeInsets.all(defaultPadding),
+                            hintStyle: context.titleMedium.copyWith(color: context.black50),
+                            disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius), borderSide: BorderSide.none),
+                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius), borderSide: context.borderSide),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius), borderSide: context.borderSide),
+                            suffixIcon: CupertinoButton(
+                              minSize: 0,
+                              padding: EdgeInsets.zero,
+                              onPressed: (){
+                                searchController.clear();
+                                onChange('');
+                              },
+                              child: Icon(Icons.cancel_rounded, color: context.theme.dividerColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: defaultPadding),
+                      Flexible(
+                        child: ValueListenableBuilder(
+                          valueListenable: filteredCountryListNotifier,
+                          builder: (_, filteredList, __) {
+                            if (filteredList.isEmpty) {
+                              return Center(child: Text('Country not found', style: context.titleMedium));
+                            }
+                            return Container(
+                              decoration: context.boxDecoration.copyWith(color: cardColor),
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                physics: physics,
+                                itemCount: filteredList.length,
+                                itemBuilder: (context, index) {
+                                  final data = filteredList[index];
+                                  final isFirst = index == 0;
+                                  final isLast = index == filteredList.length - 1;
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(isFirst ? borderRadius : 0), bottom: Radius.circular(isLast ? borderRadius : 0)),
+                                    child: FadeAnimation(
+                                      key: ValueKey(index),
+                                      child: CupertinoListTile(
+                                        onTap: () {
+                                          onCountryPicked(data);
+                                          Navigator.pop(context);
+                                        },
+                                        backgroundColorActivated: context.theme.dividerColor.withValues(alpha: 0.05),
+                                        padding: EdgeInsets.symmetric(vertical: defaultPadding * 0.5, horizontal: defaultPadding),
+                                        leading: ClipRRect(borderRadius: BorderRadius.circular(3), child: Image.asset(data.flag, width: 30, package: CountryPickerHelper.packageName)),
+                                        title: Text(data.name, style: context.titleMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
+                                        trailing: Text(data.callingCode, style: context.titleMedium.copyWith(color: context.black50)),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return context.divider(height: 0);
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       );

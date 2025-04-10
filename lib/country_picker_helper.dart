@@ -1,7 +1,7 @@
 import 'package:cupertino_country_picker/country_model.dart';
 import 'gen/assets.gen.dart' show Assets;
 
-class CountryHelper{
+class CountryPickerHelper{
   static final packageName = 'cupertino_country_picker';
 
   static final countryList = countryJsonList.map((jsonItem) => CountryModel.fromJson(jsonItem)).toList();

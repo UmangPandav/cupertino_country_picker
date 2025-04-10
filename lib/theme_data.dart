@@ -15,7 +15,7 @@ ThemeData AppTheme(Brightness theme){
   final scaffoldBackgroundColor = isDark ? scaffoldBgColorDark : scaffoldBgColorLight;
   return ThemeData(
     useMaterial3: true,
-    package: CountryHelper.packageName,
+    package: CountryPickerHelper.packageName,
     fontFamily: FontFamily.publicSans,
     cardColor: cardColor,
     dividerColor: dividerColor,
