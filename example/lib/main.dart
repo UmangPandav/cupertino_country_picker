@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> toggleButton() async{
-    await showCountryPickerBottomSheet(
+    await showCupertinoCountryPicker(
       context: context,
       onCountryPicked: (country) {
         setState(() {

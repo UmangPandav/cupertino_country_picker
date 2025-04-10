@@ -44,7 +44,7 @@ packages:
   cupertino_country_picker:
     dependency: "direct main"
     description:
-      path: "packages/cupertino_country_picker"
+      path: ".."
       relative: true
     source: path
     version: "1.0.0"

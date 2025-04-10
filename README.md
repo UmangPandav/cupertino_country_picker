@@ -3,7 +3,7 @@
 A beautiful, customizable **iOS-style country picker** built with Flutter's Cupertino design system. Easily select countries with flags, calling codes, and search functionality. Perfect for apps that require region selection or phone number inputs.
 
 <p align="center">
-  <img src="https://github.com/UmangPandav/cupertino_country_picker/blob/master/demo.gif" alt="Cupertino Country Picker Demo" width="300" />
+  <img src="demo.gif/" width="300" />
   <br />
   <sub><i>Loading preview... if it doesn't show, click <a href="https://github.com/UmangPandav/cupertino_country_picker/blob/master/demo.gif" target="_blank">here</a></i></sub>
 </p>
@@ -33,7 +33,7 @@ Add the package in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  cupertino_country_picker:
+  cupertino_country_picker: ^1.0.0
 ```
 
 Run:
@@ -48,14 +48,14 @@ flutter pub get
 
 ### 1. Show the Country Picker
 
-Call the `showCountryPickerBottomSheet()` function anywhere in your app:
+Call the `showCupertinoCountryPicker()` function anywhere in your app:
 
 ```dart
 import 'package:cupertino_country_picker/cupertino_country_picker.dart';
 
 ElevatedButton(
   onPressed: () {
-    showCountryPickerBottomSheet(
+    showCupertinoCountryPicker(
       context: context,
       onCountryPicked: (CountryModel country) {
         print('Selected Country: \${country.name}');
@@ -112,7 +112,7 @@ results.forEach((country) => print(country.name));
 String? _selectedCountry;
 
 void _pickCountry(BuildContext context) {
-  showCountryPickerBottomSheet(
+  showCupertinoCountryPicker(
     context: context,
     onCountryPicked: (country) {
       setState(() {
@@ -158,7 +158,7 @@ if (country != null) {
 
 ## 📚 Full Example
 
-Check the [example](demo.mp4/) directory for a working demo.
+Check the [example](demo.gif/) directory for a working demo.
 
 ---
 

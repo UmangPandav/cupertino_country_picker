@@ -12,7 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_country_picker: ^1.0.0
+  cupertino_country_picker:
+    path: ../
 
 dev_dependencies:
   flutter_test:
