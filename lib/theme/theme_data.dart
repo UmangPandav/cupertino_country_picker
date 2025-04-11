@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use, non_constant_identifier_names
-import 'package:cupertino_country_picker/country_picker_helper.dart';
 import 'package:cupertino_country_picker/gen/fonts.gen.dart' show FontFamily;
+import 'package:cupertino_country_picker/helper/country_picker_helper.dart' show CountryPickerHelper;
 import 'package:flutter/material.dart';
 
 Color cardColorLight = const Color(0xFFFAFAFA);

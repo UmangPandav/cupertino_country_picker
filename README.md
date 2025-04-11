@@ -33,7 +33,7 @@ Add the package in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  cupertino_country_picker: ^1.0.1
+  cupertino_country_picker: ^1.0.2
 ```
 
 Run:
@@ -109,14 +109,14 @@ results.forEach((country) => print(country.name));
 ## 💡 Example Use Case
 
 ```dart
-String? _selectedCountry;
+CountryModel? _selectedCountry;
 
 void _pickCountry(BuildContext context) {
   showCupertinoCountryPicker(
     context: context,
     onCountryPicked: (country) {
       setState(() {
-        _selectedCountry = '\${country.flag} \${country.name} (\${country.callingCode})';
+        _selectedCountry = country;
       });
     },
   );
@@ -126,7 +126,30 @@ void _pickCountry(BuildContext context) {
 Widget build(BuildContext context) {
   return Column(
     children: [
-      Text(_selectedCountry ?? 'No country selected'),
+      if(_selectedCountry != null)...[
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            _selectedCountry!.flag,
+            package: CountryPickerHelper.packageName,
+            height: 50,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'Selected Country: ${_selectedCountry!.name}',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          'Calling Code: ${_selectedCountry!.callingCode}',
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          'Country Code: ${_selectedCountry!.countryCode}',
+          textAlign: TextAlign.center,
+        ),
+      ],
       ElevatedButton(
         onPressed: () => _pickCountry(context),
         child: Text('Pick Country'),

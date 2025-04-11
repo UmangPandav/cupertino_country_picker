@@ -1,6 +1,6 @@
-import 'package:cupertino_country_picker/country_model.dart' show CountryModel;
-import 'package:cupertino_country_picker/country_picker_helper.dart';
 import 'package:cupertino_country_picker/cupertino_country_picker.dart';
+import 'package:cupertino_country_picker/helper/country_picker_helper.dart' show CountryPickerHelper;
+import 'package:cupertino_country_picker/model/country_model.dart' show CountryModel;
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(brightness: Brightness.dark),
       home: const HomePage(),
     );
   }
@@ -74,11 +75,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: toggleButton,
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(Colors.blue),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
+                shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
               ),
               child: Text(
                 'Open Country Picker',

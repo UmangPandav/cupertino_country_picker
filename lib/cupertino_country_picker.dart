@@ -1,11 +1,11 @@
-import 'package:cupertino_country_picker/country_picker_helper.dart';
-import 'package:cupertino_country_picker/fade_animation.dart';
-import 'package:flutter/cupertino.dart' show CupertinoButton, CupertinoListTile;
 import 'package:flutter/material.dart';
-import 'package:cupertino_country_picker/const.dart';
-import 'package:cupertino_country_picker/context.dart';
-import 'package:cupertino_country_picker/country_model.dart' show CountryModel;
-import 'package:cupertino_country_picker/hide_keyboard.dart' show hideKeyboard;
+import 'package:flutter/cupertino.dart' show CupertinoButton, CupertinoListTile;
+import 'package:cupertino_country_picker/utils/context.dart';
+import 'package:cupertino_country_picker/helper/country_picker_helper.dart' show CountryPickerHelper;
+import 'package:cupertino_country_picker/utils/const.dart' show borderRadius, defaultPadding, physics;
+import 'package:cupertino_country_picker/utils/hide_keyboard.dart' show hideKeyboard;
+import 'package:cupertino_country_picker/widget/fade_animation.dart' show FadeAnimation;
+import 'package:cupertino_country_picker/model/country_model.dart' show CountryModel;
 
 Future<void> showCupertinoCountryPicker({
   required BuildContext context,
@@ -35,7 +35,7 @@ Future<void> showCupertinoCountryPicker({
     context: context,
     useSafeArea: true,
     isScrollControlled: true,
-    barrierColor: Colors.black54,
+    barrierColor: context.isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black38,
     constraints: BoxConstraints(maxHeight: context.h * 0.75),
     sheetAnimationStyle: AnimationStyle(curve: Curves.bounceInOut),
     backgroundColor: backgroundColor ?? context.theme.scaffoldBackgroundColor,
@@ -147,7 +147,7 @@ Future<void> showCupertinoCountryPicker({
                                 shrinkWrap: true,
                                 physics: physics,
                                 itemCount: filteredList.length,
-                                itemBuilder: (context, index) {
+                                itemBuilder: (_, index) {
                                   final data = filteredList[index];
                                   final isFirst = index == 0;
                                   final isLast =
@@ -189,7 +189,7 @@ Future<void> showCupertinoCountryPicker({
                                     ),
                                   );
                                 },
-                                separatorBuilder: (context, index) {
+                                separatorBuilder: (_, index) {
                                   return context.divider(height: 0);
                                 },
                               ),
