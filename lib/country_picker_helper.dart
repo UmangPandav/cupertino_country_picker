@@ -1,44 +1,50 @@
 import 'package:cupertino_country_picker/country_model.dart';
 import 'gen/assets.gen.dart' show Assets;
 
-class CountryPickerHelper{
+class CountryPickerHelper {
   static final packageName = 'cupertino_country_picker';
 
-  static final countryList = countryJsonList.map((jsonItem) => CountryModel.fromJson(jsonItem)).toList();
+  static final countryList = countryJsonList
+      .map((jsonItem) => CountryModel.fromJson(jsonItem))
+      .toList();
 
   static CountryModel? getByCountryCode(String code) {
-    try{
-      return countryList.firstWhere((country) => country.countryCode.toLowerCase() == code.toLowerCase());
-    } catch(e){
+    try {
+      return countryList.firstWhere(
+          (country) => country.countryCode.toLowerCase() == code.toLowerCase());
+    } catch (e) {
       return null;
     }
   }
 
   static CountryModel? getByName(String name) {
-    try{
-      return countryList.firstWhere((country) => country.name.toLowerCase() == name.toLowerCase());
-    } catch(e){
+    try {
+      return countryList.firstWhere(
+          (country) => country.name.toLowerCase() == name.toLowerCase());
+    } catch (e) {
       return null;
     }
   }
 
   static CountryModel? getByCallingCode(String callingCode) {
-    try{
-      return countryList.firstWhere((country) => country.callingCode == callingCode);
-    } catch(e){
+    try {
+      return countryList
+          .firstWhere((country) => country.callingCode == callingCode);
+    } catch (e) {
       return null;
     }
   }
 
   static List<CountryModel> getListByQuery(String query) {
-    try{
+    try {
       final formatedQuery = query.trim().toLowerCase();
       return countryList.where((country) {
         final nameMatch = country.name.toLowerCase().contains(formatedQuery);
-        final codeMatch = country.callingCode.toLowerCase().contains(formatedQuery);
+        final codeMatch =
+            country.callingCode.toLowerCase().contains(formatedQuery);
         return nameMatch || codeMatch;
       }).toList();
-    } catch(e){
+    } catch (e) {
       return [];
     }
   }

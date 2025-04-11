@@ -33,7 +33,7 @@ Add the package in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  cupertino_country_picker: ^1.0.0
+  cupertino_country_picker: ^1.0.1
 ```
 
 Run:

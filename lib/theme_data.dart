@@ -8,11 +8,12 @@ Color cardColorDark = const Color(0xFF13131B);
 Color scaffoldBgColorLight = const Color(0xFFEFF1F3);
 Color scaffoldBgColorDark = const Color(0xFF000000);
 
-ThemeData AppTheme(Brightness theme){
+ThemeData AppTheme(Brightness theme) {
   final isDark = theme == Brightness.dark;
   final dividerColor = isDark ? Colors.white : Colors.black;
   final cardColor = isDark ? cardColorDark : cardColorLight;
-  final scaffoldBackgroundColor = isDark ? scaffoldBgColorDark : scaffoldBgColorLight;
+  final scaffoldBackgroundColor =
+      isDark ? scaffoldBgColorDark : scaffoldBgColorLight;
   return ThemeData(
     useMaterial3: true,
     package: CountryPickerHelper.packageName,
@@ -21,9 +22,8 @@ ThemeData AppTheme(Brightness theme){
     dividerColor: dividerColor,
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     textSelectionTheme: TextSelectionThemeData(
-      cursorColor: dividerColor,
-      selectionHandleColor: dividerColor,
-      selectionColor: dividerColor.withValues(alpha: 0.1)
-    ),
+        cursorColor: dividerColor,
+        selectionHandleColor: dividerColor,
+        selectionColor: dividerColor.withValues(alpha: 0.1)),
   );
 }

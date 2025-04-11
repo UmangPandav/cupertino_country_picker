@@ -1,4 +1,4 @@
-class CountryModel{
+class CountryModel {
   final String name;
   final String flag;
   final String countryCode;

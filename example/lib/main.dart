@@ -7,7 +7,7 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget{
   }
 }
 
-class HomePage extends StatefulWidget{
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
@@ -27,37 +27,63 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage> {
-
   CountryModel? selectedCountry;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: const Text('Country Picker Example', style: TextStyle(fontSize: 18)),
+        title: const Text(
+          'Country Picker Example',
+          style: TextStyle(fontSize: 18),
+        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (selectedCountry != null)...[
-              ClipRRect(borderRadius: BorderRadius.circular(10), child: Image.asset(selectedCountry!.flag, package: CountryPickerHelper.packageName, height: 50)),
+            if (selectedCountry != null) ...[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  selectedCountry!.flag,
+                  package: CountryPickerHelper.packageName,
+                  height: 50,
+                ),
+              ),
               const SizedBox(height: 10),
-              Text('Selected Country: ${selectedCountry!.name}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-              Text('Calling Code: ${selectedCountry!.callingCode}', textAlign: TextAlign.center),
-              Text('Country Code: ${selectedCountry!.countryCode}', textAlign: TextAlign.center),
+              Text(
+                'Selected Country: ${selectedCountry!.name}',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Calling Code: ${selectedCountry!.callingCode}',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Country Code: ${selectedCountry!.countryCode}',
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 10),
             ],
             ElevatedButton(
               onPressed: toggleButton,
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(Colors.blue),
-                shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
-              child: Text('Open Country Picker', style: TextStyle(color: Colors.white)),
+              child: Text(
+                'Open Country Picker',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -65,7 +91,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> toggleButton() async{
+  Future<void> toggleButton() async {
     await showCupertinoCountryPicker(
       context: context,
       onCountryPicked: (country) {

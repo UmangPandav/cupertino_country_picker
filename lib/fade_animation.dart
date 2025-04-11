@@ -4,15 +4,31 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
 
 enum AniProps { opacity, translateX, translateY }
-enum FadeFrom { topLeft, top, topRight, left, center, right, bottomLeft, bottom, bottomRight }
 
-class FadeAnimation extends StatelessWidget{
+enum FadeFrom {
+  topLeft,
+  top,
+  topRight,
+  left,
+  center,
+  right,
+  bottomLeft,
+  bottom,
+  bottomRight
+}
+
+class FadeAnimation extends StatelessWidget {
   final double delay;
   final Widget child;
   final FadeFrom fadeFrom;
   final double size;
 
-  FadeAnimation({super.key, this.delay = 0, required this.child, this.fadeFrom = FadeFrom.center, this.size = 30.0});
+  FadeAnimation(
+      {super.key,
+      this.delay = 0,
+      required this.child,
+      this.fadeFrom = FadeFrom.center,
+      this.size = 30.0});
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +47,10 @@ class FadeAnimation extends StatelessWidget{
     final Offset offset = positionOffsets[fadeFrom]!;
     final tween = MovieTween()
       ..tween(AniProps.opacity, 0.0.tweenTo(1.0), duration: 300.milliseconds)
-      ..tween(AniProps.translateX, offset.dx.tweenTo(0.0), duration: 500.milliseconds, curve: Curves.easeOutBack)
-      ..tween(AniProps.translateY, offset.dy.tweenTo(0.0), duration: 500.milliseconds, curve: Curves.easeOutBack);
+      ..tween(AniProps.translateX, offset.dx.tweenTo(0.0),
+          duration: 500.milliseconds, curve: Curves.easeOutBack)
+      ..tween(AniProps.translateY, offset.dy.tweenTo(0.0),
+          duration: 500.milliseconds, curve: Curves.easeOutBack);
 
     return PlayAnimationBuilder<Movie>(
       delay: Duration(milliseconds: (300 * delay).round()),
@@ -42,7 +60,8 @@ class FadeAnimation extends StatelessWidget{
       builder: (context, value, child) => Opacity(
         opacity: value.get(AniProps.opacity),
         child: Transform.translate(
-          offset: Offset(value.get(AniProps.translateX), value.get(AniProps.translateY)),
+          offset: Offset(
+              value.get(AniProps.translateX), value.get(AniProps.translateY)),
           child: child,
         ),
       ),
