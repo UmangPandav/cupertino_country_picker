@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart' show CupertinoButton, CupertinoListTile;
 import 'package:cupertino_country_picker/utils/context.dart';
-import 'package:cupertino_country_picker/helper/country_picker_helper.dart' show CountryPickerHelper;
-import 'package:cupertino_country_picker/utils/const.dart' show borderRadius, defaultPadding, physics;
-import 'package:cupertino_country_picker/utils/hide_keyboard.dart' show hideKeyboard;
-import 'package:cupertino_country_picker/widget/fade_animation.dart' show FadeAnimation;
-import 'package:cupertino_country_picker/model/country_model.dart' show CountryModel;
+import 'package:cupertino_country_picker/helper/country_picker_helper.dart'
+    show CountryPickerHelper;
+import 'package:cupertino_country_picker/utils/const.dart'
+    show borderRadius, defaultPadding, physics;
+import 'package:cupertino_country_picker/utils/hide_keyboard.dart'
+    show hideKeyboard;
+import 'package:cupertino_country_picker/widget/fade_animation.dart'
+    show FadeAnimation;
+import 'package:cupertino_country_picker/model/country_model.dart'
+    show CountryModel;
+import 'package:flutter/services.dart' show SystemSound, SystemSoundType;
 
 Future<void> showCupertinoCountryPicker({
   required BuildContext context,
@@ -35,7 +41,8 @@ Future<void> showCupertinoCountryPicker({
     context: context,
     useSafeArea: true,
     isScrollControlled: true,
-    barrierColor: context.isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black38,
+    barrierColor:
+        context.isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black38,
     constraints: BoxConstraints(maxHeight: context.h * 0.75),
     sheetAnimationStyle: AnimationStyle(curve: Curves.bounceInOut),
     backgroundColor: backgroundColor ?? context.theme.scaffoldBackgroundColor,
@@ -160,31 +167,81 @@ Future<void> showCupertinoCountryPicker({
                                             isLast ? borderRadius : 0)),
                                     child: FadeAnimation(
                                       key: ValueKey(index),
-                                      child: CupertinoListTile(
-                                        onTap: () {
-                                          onCountryPicked(data);
-                                          Navigator.pop(context);
+                                      child: LongPressDraggable<int>(
+                                        data: index,
+                                        feedback: SizedBox.shrink(),
+                                        delay: Duration(milliseconds: 250),
+                                        onDragStarted: () {
+                                          SystemSound.play(
+                                              SystemSoundType.click);
                                         },
-                                        backgroundColorActivated: context
-                                            .theme.dividerColor
-                                            .withValues(alpha: 0.05),
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: defaultPadding * 0.5,
-                                            horizontal: defaultPadding),
-                                        leading: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                            child: Image.asset(data.flag,
-                                                width: 30,
-                                                package: CountryPickerHelper
-                                                    .packageName)),
-                                        title: Text(data.name,
-                                            style: context.titleMedium,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis),
-                                        trailing: Text(data.callingCode,
-                                            style: context.titleMedium.copyWith(
-                                                color: context.black50)),
+                                        child: DragTarget<int>(
+                                            onWillAcceptWithDetails:
+                                                (draggedIndex) => true,
+                                            onAcceptWithDetails: (_) {
+                                              Navigator.pop(context);
+                                              onCountryPicked(data);
+                                            },
+                                            builder: (context, candidateData,
+                                                rejectedData) {
+                                              final isHovered =
+                                                  candidateData.isNotEmpty;
+                                              return MouseRegion(
+                                                cursor:
+                                                    SystemMouseCursors.click,
+                                                child: AnimatedContainer(
+                                                  duration:
+                                                      Duration(milliseconds: 0),
+                                                  color: isHovered
+                                                      ? context
+                                                          .theme.dividerColor
+                                                          .withValues(
+                                                              alpha: 0.05)
+                                                      : null,
+                                                  child: CupertinoListTile(
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                      onCountryPicked(data);
+                                                    },
+                                                    backgroundColorActivated:
+                                                        context
+                                                            .theme.dividerColor
+                                                            .withValues(
+                                                                alpha: 0.05),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical:
+                                                                defaultPadding *
+                                                                    0.5,
+                                                            horizontal:
+                                                                defaultPadding),
+                                                    leading: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(3),
+                                                        child: Image.asset(
+                                                            data.flag,
+                                                            width: 30,
+                                                            package:
+                                                                CountryPickerHelper
+                                                                    .packageName)),
+                                                    title: Text(data.name,
+                                                        style:
+                                                            context.titleMedium,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis),
+                                                    trailing: Text(
+                                                        data.callingCode,
+                                                        style: context
+                                                            .titleMedium
+                                                            .copyWith(
+                                                                color: context
+                                                                    .black50)),
+                                                  ),
+                                                ),
+                                              );
+                                            }),
                                       ),
                                     ),
                                   );

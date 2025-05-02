@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart' show BouncingScrollPhysics, ScrollPhysics;
+import 'package:flutter/cupertino.dart'
+    show BouncingScrollPhysics, ScrollPhysics;
 
 const double borderRadius = 12.5;
 const double defaultPadding = 12.5;

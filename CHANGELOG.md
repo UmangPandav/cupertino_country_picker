@@ -1,3 +1,10 @@
+## 1.0.3
+
+### ✨ Enhancements
+- Add tap and drag functionality for better user experience.
+
+---
+
 ## 1.0.2
 
 ### ✨ Enhancements

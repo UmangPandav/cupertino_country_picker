@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors, file_names
 import 'package:flutter/material.dart';
-import 'package:simple_animations/animation_builder/play_animation_builder.dart' show PlayAnimationBuilder;
+import 'package:simple_animations/animation_builder/play_animation_builder.dart'
+    show PlayAnimationBuilder;
 import 'package:simple_animations/movie_tween/movie_tween.dart' show MovieTween;
 import 'package:simple_animations/simple_animations.dart' show Movie;
 import 'package:supercharged/supercharged.dart';

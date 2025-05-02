@@ -1,5 +1,6 @@
 import 'package:cupertino_country_picker/gen/assets.gen.dart' show Assets;
-import 'package:cupertino_country_picker/model/country_model.dart' show CountryModel;
+import 'package:cupertino_country_picker/model/country_model.dart'
+    show CountryModel;
 
 class CountryPickerHelper {
   static final packageName = 'cupertino_country_picker';
