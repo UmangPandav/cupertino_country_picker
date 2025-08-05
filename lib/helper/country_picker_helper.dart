@@ -9,7 +9,8 @@ class CountryPickerHelper {
       .map((jsonItem) => CountryModel.fromJson(jsonItem))
       .toList();
 
-  static CountryModel? getByCountryCode(String code, {List<CountryModel>? allowedCountryList}) {
+  static CountryModel? getByCountryCode(String code,
+      {List<CountryModel>? allowedCountryList}) {
     try {
       return (allowedCountryList ?? countryList).firstWhere(
           (country) => country.countryCode.toLowerCase() == code.toLowerCase());
@@ -18,7 +19,8 @@ class CountryPickerHelper {
     }
   }
 
-  static CountryModel? getByName(String name, {List<CountryModel>? allowedCountryList}) {
+  static CountryModel? getByName(String name,
+      {List<CountryModel>? allowedCountryList}) {
     try {
       return (allowedCountryList ?? countryList).firstWhere(
           (country) => country.name.toLowerCase() == name.toLowerCase());
@@ -27,7 +29,8 @@ class CountryPickerHelper {
     }
   }
 
-  static CountryModel? getByCallingCode(String callingCode, {List<CountryModel>? allowedCountryList}) {
+  static CountryModel? getByCallingCode(String callingCode,
+      {List<CountryModel>? allowedCountryList}) {
     try {
       return (allowedCountryList ?? countryList)
           .firstWhere((country) => country.callingCode == callingCode);
@@ -36,7 +39,8 @@ class CountryPickerHelper {
     }
   }
 
-  static List<CountryModel> getListByQuery(String query, {List<CountryModel>? allowedCountryList}) {
+  static List<CountryModel> getListByQuery(String query,
+      {List<CountryModel>? allowedCountryList}) {
     try {
       final formatedQuery = query.trim().toLowerCase();
       return (allowedCountryList ?? countryList).where((country) {

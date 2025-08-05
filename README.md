@@ -19,10 +19,10 @@ A beautiful, customizable **iOS-style country picker** built with Flutter's Cupe
 ✅ Display flag images easily using `CountryHelper.packageName`
 
 ```dart
-CountryHelper.getByCountryCode('IN');     // 🇮🇳 India
-CountryHelper.getByName('Germany');       // 🇩🇪 Germany
-CountryHelper.getByCallingCode('+44');    // 🇬🇧 United Kingdom
-CountryHelper.getListByQuery('can');      // 🇨🇦 Canada, 🇨🇻 Cape Verde, etc.
+CountryPickerHelper.getByCountryCode('IN');     // 🇮🇳 India
+CountryPickerHelper.getByName('Germany');       // 🇩🇪 Germany
+CountryPickerHelper.getByCallingCode('+44');    // 🇬🇧 United Kingdom
+CountryPickerHelper.getListByQuery('can');      // 🇨🇦 Canada, 🇨🇻 Cape Verde, etc.
 ```
 
 ---
@@ -79,28 +79,28 @@ You can use `CountryHelper` to get country data programmatically.
 ### 🔹 Get by Country Code
 
 ```dart
-final country = CountryHelper.getByCountryCode('US');
+final country = CountryPickerHelper.getByCountryCode('US');
 print(country?.name); // United States
 ```
 
 ### 🔹 Get by Country Name
 
 ```dart
-final country = CountryHelper.getByName('Japan');
+final country = CountryPickerHelper.getByName('Japan');
 print(country?.callingCode); // +81
 ```
 
 ### 🔹 Get by Calling Code
 
 ```dart
-final country = CountryHelper.getByCallingCode('+49');
+final country = CountryPickerHelper.getByCallingCode('+49');
 print(country?.name); // Germany
 ```
 
 ### 🔹 Search Country by Query
 
 ```dart
-final results = CountryHelper.getListByQuery('in');
+final results = CountryPickerHelper.getListByQuery('in');
 results.forEach((country) => print(country.name));
 ```
 
@@ -166,11 +166,11 @@ Widget build(BuildContext context) {
 To display country flag images in your UI, you can use the `CountryHelper.packageName` with the `Image.asset()` widget:
 
 ```dart
-final country = CountryHelper.getByCountryCode('IN');
+final country = CountryPickerHelper.getByCountryCode('IN');
 if (country != null) {
   Image.asset(
     country.flag,
-    package: CountryHelper.packageName,
+    package: CountryPickerHelper.packageName,
     width: 32,
     height: 20,
   );

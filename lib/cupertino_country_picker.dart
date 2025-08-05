@@ -1,6 +1,9 @@
-import 'package:cupertino_country_picker/utils/country_code_enum.dart' show CountryCodeEnum;
-import 'package:cupertino_country_picker/widget/country_picker_decoration.dart' show CountryPickerDecoration;
-import 'package:cupertino_country_picker/widget/fade_animation.dart' show FadeAnimation, FadeFrom;
+import 'package:cupertino_country_picker/utils/country_code_enum.dart'
+    show CountryCodeEnum;
+import 'package:cupertino_country_picker/widget/country_picker_decoration.dart'
+    show CountryPickerDecoration;
+import 'package:cupertino_country_picker/widget/fade_animation.dart'
+    show FadeAnimation, FadeFrom;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart' show CupertinoButton, CupertinoListTile;
 import 'package:cupertino_country_picker/utils/context.dart';
@@ -23,17 +26,24 @@ Future<void> showCupertinoCountryPicker({
   hideKeyboard(context: context);
 
   final countryList = CountryPickerHelper.countryList;
-  final List<CountryModel> allowedCountriesList = allowedCountries != null ? countryList.where((country) => allowedCountries.contains(country.countryCodeEnum)).toList() : countryList;
+  final List<CountryModel> allowedCountriesList = allowedCountries != null
+      ? countryList
+          .where(
+              (country) => allowedCountries.contains(country.countryCodeEnum))
+          .toList()
+      : countryList;
 
-  final filteredCountryListNotifier = ValueNotifier<List<CountryModel>>(allowedCountriesList);
+  final filteredCountryListNotifier =
+      ValueNotifier<List<CountryModel>>(allowedCountriesList);
 
   final searchController = TextEditingController();
   final searchTextNotifier = ValueNotifier('');
 
   Future<void> onChange(String query) async {
     searchTextNotifier.value = query.trim();
-    filteredCountryListNotifier.value =
-        CountryPickerHelper.getListByQuery(query.trim(), allowedCountryList: allowedCountriesList);
+    filteredCountryListNotifier.value = CountryPickerHelper.getListByQuery(
+        query.trim(),
+        allowedCountryList: allowedCountriesList);
   }
 
   return await showModalBottomSheet(
@@ -44,7 +54,8 @@ Future<void> showCupertinoCountryPicker({
         context.isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black38,
     constraints: BoxConstraints(maxHeight: context.h * 0.75),
     sheetAnimationStyle: AnimationStyle(curve: Curves.bounceInOut),
-    backgroundColor: decoration.backgroundColor ?? context.theme.scaffoldBackgroundColor,
+    backgroundColor:
+        decoration.backgroundColor ?? context.theme.scaffoldBackgroundColor,
     shape: decoration.shape ??
         RoundedRectangleBorder(
             borderRadius:
@@ -68,18 +79,27 @@ Future<void> showCupertinoCountryPicker({
                 scrolledUnderElevation: 0,
                 shadowColor: Colors.transparent,
                 automaticallyImplyLeading: false,
-                backgroundColor: decoration.appBarBackgroundColor ?? context.bottomSheetAppBarColor,
+                backgroundColor: decoration.appBarBackgroundColor ??
+                    context.bottomSheetAppBarColor,
                 leading: CupertinoButton(
                   minimumSize: Size.zero,
                   padding: EdgeInsets.only(left: defaultPadding),
                   onPressed: () => Navigator.pop(context),
                   child: Text(
                     decoration.closeButtonText,
-                    style: (decoration.closeButtonTextStyle as TextStyle? ?? context.titleMediumThick).copyWith(color: Colors.blue.shade600),
+                    style: (decoration.closeButtonTextStyle as TextStyle? ??
+                            context.titleMediumThick)
+                        .copyWith(color: Colors.blue.shade600),
                   ),
                 ),
-                title: Text(decoration.titleText, style: (decoration.titleTextStyle as TextStyle?) ?? context.titleMediumThick, textScaler: TextScaler.linear(1.05), textAlign: TextAlign.center),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(borderRadius))),
+                title: Text(decoration.titleText,
+                    style: (decoration.titleTextStyle as TextStyle?) ??
+                        context.titleMediumThick,
+                    textScaler: TextScaler.linear(1.05),
+                    textAlign: TextAlign.center),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(borderRadius))),
               ),
               context.divider(height: 0),
               Expanded(
@@ -89,9 +109,10 @@ Future<void> showCupertinoCountryPicker({
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if(decoration.canSearch)
+                      if (decoration.canSearch)
                         Container(
-                          decoration: BoxDecoration(boxShadow: context.boxShadow),
+                          decoration:
+                              BoxDecoration(boxShadow: context.boxShadow),
                           padding: EdgeInsets.only(bottom: defaultPadding),
                           child: TextFormField(
                             cursorWidth: 1.5,
@@ -104,15 +125,18 @@ Future<void> showCupertinoCountryPicker({
                             cursorRadius: const Radius.circular(10000),
                             keyboardAppearance:
                                 context.theme.colorScheme.brightness,
-                            onTapOutside: (event) => hideKeyboard(context: context),
+                            onTapOutside: (event) =>
+                                hideKeyboard(context: context),
                             decoration: decoration.searchInputDecoration ??
                                 InputDecoration(
                                   filled: true,
                                   isDense: true,
                                   hintText: 'Search',
                                   hoverColor: Colors.transparent,
-                                  fillColor: decoration.cardColor ?? context.theme.cardColor,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                                  fillColor: decoration.cardColor ??
+                                      context.theme.cardColor,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: defaultPadding),
                                   hintStyle: context.titleMedium
                                       .copyWith(color: context.black50),
                                   disabledBorder: OutlineInputBorder(
@@ -128,24 +152,24 @@ Future<void> showCupertinoCountryPicker({
                                           BorderRadius.circular(borderRadius),
                                       borderSide: context.borderSide),
                                   suffixIcon: ValueListenableBuilder(
-                                    valueListenable: searchTextNotifier,
-                                    builder: (_, searchText, __) {
-                                      if(searchText.trim().isNotEmpty) {
-                                        return CupertinoButton(
-                                          minimumSize: Size.zero,
-                                          padding: EdgeInsets.zero,
-                                          onPressed: () {
-                                            searchController.clear();
-                                            onChange('');
-                                          },
-                                          child: Icon(Icons.cancel_rounded,
-                                              color: context.theme.dividerColor),
-                                        );
-                                      }
+                                      valueListenable: searchTextNotifier,
+                                      builder: (_, searchText, __) {
+                                        if (searchText.trim().isNotEmpty) {
+                                          return CupertinoButton(
+                                            minimumSize: Size.zero,
+                                            padding: EdgeInsets.zero,
+                                            onPressed: () {
+                                              searchController.clear();
+                                              onChange('');
+                                            },
+                                            child: Icon(Icons.cancel_rounded,
+                                                color:
+                                                    context.theme.dividerColor),
+                                          );
+                                        }
 
-                                      return SizedBox.shrink();
-                                    }
-                                  ),
+                                        return SizedBox.shrink();
+                                      }),
                                 ),
                           ),
                         ),

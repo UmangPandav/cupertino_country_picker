@@ -17,5 +17,6 @@ class CountryModel {
     );
   }
 
-  CountryCodeEnum? get countryCodeEnum => CountryCodeEnumExtension.tryFromCode(countryCode);
+  CountryCodeEnum? get countryCodeEnum =>
+      CountryCodeEnumExtension.tryFromCode(countryCode);
 }

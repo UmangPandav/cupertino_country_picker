@@ -1,3 +1,11 @@
+## 1.0.4
+
+### ✨ Enhancements
+- Add support for custom allowed country filtering using CountryCodeEnum.
+- Extract CountryPickerDecoration class to enable UI customization:
+- Improved UI layout for a cleaner and more interactive design.
+- Enable/disable search bar with canSearch flag.
+
 ## 1.0.3
 
 ### ✨ Enhancements
