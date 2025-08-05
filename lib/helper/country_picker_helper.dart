@@ -9,37 +9,37 @@ class CountryPickerHelper {
       .map((jsonItem) => CountryModel.fromJson(jsonItem))
       .toList();
 
-  static CountryModel? getByCountryCode(String code) {
+  static CountryModel? getByCountryCode(String code, {List<CountryModel>? allowedCountryList}) {
     try {
-      return countryList.firstWhere(
+      return (allowedCountryList ?? countryList).firstWhere(
           (country) => country.countryCode.toLowerCase() == code.toLowerCase());
     } catch (e) {
       return null;
     }
   }
 
-  static CountryModel? getByName(String name) {
+  static CountryModel? getByName(String name, {List<CountryModel>? allowedCountryList}) {
     try {
-      return countryList.firstWhere(
+      return (allowedCountryList ?? countryList).firstWhere(
           (country) => country.name.toLowerCase() == name.toLowerCase());
     } catch (e) {
       return null;
     }
   }
 
-  static CountryModel? getByCallingCode(String callingCode) {
+  static CountryModel? getByCallingCode(String callingCode, {List<CountryModel>? allowedCountryList}) {
     try {
-      return countryList
+      return (allowedCountryList ?? countryList)
           .firstWhere((country) => country.callingCode == callingCode);
     } catch (e) {
       return null;
     }
   }
 
-  static List<CountryModel> getListByQuery(String query) {
+  static List<CountryModel> getListByQuery(String query, {List<CountryModel>? allowedCountryList}) {
     try {
       final formatedQuery = query.trim().toLowerCase();
-      return countryList.where((country) {
+      return (allowedCountryList ?? countryList).where((country) {
         final nameMatch = country.name.toLowerCase().contains(formatedQuery);
         final codeMatch =
             country.callingCode.toLowerCase().contains(formatedQuery);

@@ -12,6 +12,8 @@ extension Context on BuildContext {
   ThemeData get theme =>
       isDark ? AppTheme(Brightness.dark) : AppTheme(Brightness.light);
 
+  Color get bottomSheetAppBarColor => isDark ? theme.cardColor.withValues(alpha: 0.6) : Colors.black.withValues(alpha: 0.07);
+
   TextStyle get titleMedium => theme.textTheme.titleMedium!.copyWith(
         fontSize: 16,
         fontWeight: FontWeight.w500,

@@ -1,3 +1,5 @@
+import 'package:cupertino_country_picker/utils/country_code_enum.dart';
+
 class CountryModel {
   final String name;
   final String flag;
@@ -14,4 +16,6 @@ class CountryModel {
       json['calling_code'],
     );
   }
+
+  CountryCodeEnum? get countryCodeEnum => CountryCodeEnumExtension.tryFromCode(countryCode);
 }

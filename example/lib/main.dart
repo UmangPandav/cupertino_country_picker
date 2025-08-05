@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.dark),
+      theme: ThemeData(brightness: Brightness.light),
       home: const HomePage(),
     );
   }
@@ -88,14 +88,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> toggleButton() async {
-    await showCupertinoCountryPicker(
-      context: context,
-      onCountryPicked: (country) {
-        setState(() {
-          selectedCountry = country;
-        });
-      },
-    );
-  }
+  Future<void> toggleButton() => showCupertinoCountryPicker(
+    context: context,
+    // allowedCountries: [
+    //   CountryCodeEnum.in_,
+    //   CountryCodeEnum.us,
+    // ],
+    onCountryPicked: (country) {
+      setState(() {
+        selectedCountry = country;
+      });
+    },
+  );
 }

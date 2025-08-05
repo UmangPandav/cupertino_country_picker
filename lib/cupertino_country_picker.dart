@@ -1,3 +1,6 @@
+import 'package:cupertino_country_picker/utils/country_code_enum.dart' show CountryCodeEnum;
+import 'package:cupertino_country_picker/widget/country_picker_decoration.dart' show CountryPickerDecoration;
+import 'package:cupertino_country_picker/widget/fade_animation.dart' show FadeAnimation, FadeFrom;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart' show CupertinoButton, CupertinoListTile;
 import 'package:cupertino_country_picker/utils/context.dart';
@@ -7,8 +10,6 @@ import 'package:cupertino_country_picker/utils/const.dart'
     show borderRadius, defaultPadding, physics;
 import 'package:cupertino_country_picker/utils/hide_keyboard.dart'
     show hideKeyboard;
-import 'package:cupertino_country_picker/widget/fade_animation.dart'
-    show FadeAnimation;
 import 'package:cupertino_country_picker/model/country_model.dart'
     show CountryModel;
 import 'package:flutter/services.dart' show SystemSound, SystemSoundType;
@@ -16,25 +17,23 @@ import 'package:flutter/services.dart' show SystemSound, SystemSoundType;
 Future<void> showCupertinoCountryPicker({
   required BuildContext context,
   required Function(CountryModel) onCountryPicked,
-  String titleText = 'Country',
-  String closeButtonText = 'Close',
-  TextStyle? titleTextStyle,
-  TextStyle? closeButtonTextStyle,
-  Color? backgroundColor,
-  Color? cardColor,
-  ShapeBorder? shape,
-  InputDecoration? searchInputDecoration,
+  List<CountryCodeEnum>? allowedCountries,
+  CountryPickerDecoration decoration = const CountryPickerDecoration(),
 }) async {
   hideKeyboard(context: context);
 
   final countryList = CountryPickerHelper.countryList;
-  final filteredCountryListNotifier = ValueNotifier(countryList);
+  final List<CountryModel> allowedCountriesList = allowedCountries != null ? countryList.where((country) => allowedCountries.contains(country.countryCodeEnum)).toList() : countryList;
+
+  final filteredCountryListNotifier = ValueNotifier<List<CountryModel>>(allowedCountriesList);
 
   final searchController = TextEditingController();
+  final searchTextNotifier = ValueNotifier('');
 
   Future<void> onChange(String query) async {
+    searchTextNotifier.value = query.trim();
     filteredCountryListNotifier.value =
-        CountryPickerHelper.getListByQuery(query);
+        CountryPickerHelper.getListByQuery(query.trim(), allowedCountryList: allowedCountriesList);
   }
 
   return await showModalBottomSheet(
@@ -45,111 +44,126 @@ Future<void> showCupertinoCountryPicker({
         context.isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black38,
     constraints: BoxConstraints(maxHeight: context.h * 0.75),
     sheetAnimationStyle: AnimationStyle(curve: Curves.bounceInOut),
-    backgroundColor: backgroundColor ?? context.theme.scaffoldBackgroundColor,
-    shape: shape ??
+    backgroundColor: decoration.backgroundColor ?? context.theme.scaffoldBackgroundColor,
+    shape: decoration.shape ??
         RoundedRectangleBorder(
             borderRadius:
                 BorderRadius.vertical(top: Radius.circular(borderRadius))),
     builder: (context) {
       return Theme(
         data: context.theme,
-        child: Container(
-          padding: EdgeInsets.all(defaultPadding),
-          child: SafeArea(
-            top: false,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  spacing: defaultPadding,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(titleText,
-                        style: titleTextStyle ?? context.titleMediumThick),
-                    CupertinoButton(
-                        minSize: 0,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(closeButtonText,
-                            style: closeButtonTextStyle ??
-                                context.titleMediumThick
-                                    .copyWith(color: Colors.red.shade600))),
-                  ],
+        child: SafeArea(
+          top: false,
+          left: false,
+          right: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppBar(
+                primary: false,
+                leadingWidth: 60,
+                centerTitle: true,
+                toolbarHeight: 45,
+                scrolledUnderElevation: 0,
+                shadowColor: Colors.transparent,
+                automaticallyImplyLeading: false,
+                backgroundColor: decoration.appBarBackgroundColor ?? context.bottomSheetAppBarColor,
+                leading: CupertinoButton(
+                  minimumSize: Size.zero,
+                  padding: EdgeInsets.only(left: defaultPadding),
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    decoration.closeButtonText,
+                    style: (decoration.closeButtonTextStyle as TextStyle? ?? context.titleMediumThick).copyWith(color: Colors.blue.shade600),
+                  ),
                 ),
-                SizedBox(height: defaultPadding * 0.5),
-                Expanded(
+                title: Text(decoration.titleText, style: (decoration.titleTextStyle as TextStyle?) ?? context.titleMediumThick, textScaler: TextScaler.linear(1.05), textAlign: TextAlign.center),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(borderRadius))),
+              ),
+              context.divider(height: 0),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(defaultPadding),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(boxShadow: context.boxShadow),
-                        child: TextFormField(
-                          cursorWidth: 1.5,
-                          cursorHeight: 18,
-                          onChanged: onChange,
-                          style: context.titleMedium,
-                          controller: searchController,
-                          cursorColor: context.theme.dividerColor,
-                          textInputAction: TextInputAction.search,
-                          cursorRadius: const Radius.circular(10000),
-                          keyboardAppearance:
-                              context.theme.colorScheme.brightness,
-                          onTapOutside: (event) {
-                            hideKeyboard(context: context);
-                          },
-                          decoration: searchInputDecoration ??
-                              InputDecoration(
-                                filled: true,
-                                isDense: true,
-                                hintText: 'Search',
-                                hoverColor: Colors.transparent,
-                                fillColor: cardColor ?? context.theme.cardColor,
-                                contentPadding: EdgeInsets.all(defaultPadding),
-                                hintStyle: context.titleMedium
-                                    .copyWith(color: context.black50),
-                                disabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(borderRadius),
-                                    borderSide: BorderSide.none),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(borderRadius),
-                                    borderSide: context.borderSide),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(borderRadius),
-                                    borderSide: context.borderSide),
-                                suffixIcon: CupertinoButton(
-                                  minSize: 0,
-                                  padding: EdgeInsets.zero,
-                                  onPressed: () {
-                                    searchController.clear();
-                                    onChange('');
-                                  },
-                                  child: Icon(Icons.cancel_rounded,
-                                      color: context.theme.dividerColor),
+                      if(decoration.canSearch)
+                        Container(
+                          decoration: BoxDecoration(boxShadow: context.boxShadow),
+                          padding: EdgeInsets.only(bottom: defaultPadding),
+                          child: TextFormField(
+                            cursorWidth: 1.5,
+                            cursorHeight: 18,
+                            onChanged: onChange,
+                            style: context.titleMedium,
+                            controller: searchController,
+                            cursorColor: context.theme.dividerColor,
+                            textInputAction: TextInputAction.search,
+                            cursorRadius: const Radius.circular(10000),
+                            keyboardAppearance:
+                                context.theme.colorScheme.brightness,
+                            onTapOutside: (event) => hideKeyboard(context: context),
+                            decoration: decoration.searchInputDecoration ??
+                                InputDecoration(
+                                  filled: true,
+                                  isDense: true,
+                                  hintText: 'Search',
+                                  hoverColor: Colors.transparent,
+                                  fillColor: decoration.cardColor ?? context.theme.cardColor,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: defaultPadding),
+                                  hintStyle: context.titleMedium
+                                      .copyWith(color: context.black50),
+                                  disabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(borderRadius),
+                                      borderSide: BorderSide.none),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(borderRadius),
+                                      borderSide: context.borderSide),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(borderRadius),
+                                      borderSide: context.borderSide),
+                                  suffixIcon: ValueListenableBuilder(
+                                    valueListenable: searchTextNotifier,
+                                    builder: (_, searchText, __) {
+                                      if(searchText.trim().isNotEmpty) {
+                                        return CupertinoButton(
+                                          minimumSize: Size.zero,
+                                          padding: EdgeInsets.zero,
+                                          onPressed: () {
+                                            searchController.clear();
+                                            onChange('');
+                                          },
+                                          child: Icon(Icons.cancel_rounded,
+                                              color: context.theme.dividerColor),
+                                        );
+                                      }
+
+                                      return SizedBox.shrink();
+                                    }
+                                  ),
                                 ),
-                              ),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: defaultPadding),
                       Flexible(
                         child: ValueListenableBuilder(
                           valueListenable: filteredCountryListNotifier,
                           builder: (_, filteredList, __) {
                             if (filteredList.isEmpty) {
-                              return Center(
-                                  child: Text('Country not found',
-                                      style: context.titleMedium));
+                              return FadeAnimation(
+                                fadeFrom: FadeFrom.bottom,
+                                child: Center(
+                                    child: Text('Country not found',
+                                        style: context.titleMedium)),
+                              );
                             }
                             return Container(
                               decoration: context.boxDecoration
-                                  .copyWith(color: cardColor),
+                                  .copyWith(color: decoration.cardColor),
                               child: ListView.separated(
                                 shrinkWrap: true,
                                 physics: physics,
@@ -182,7 +196,7 @@ Future<void> showCupertinoCountryPicker({
                                               Navigator.pop(context);
                                               onCountryPicked(data);
                                             },
-                                            builder: (context, candidateData,
+                                            builder: (_, candidateData,
                                                 rejectedData) {
                                               final isHovered =
                                                   candidateData.isNotEmpty;
@@ -256,9 +270,9 @@ Future<void> showCupertinoCountryPicker({
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       );
