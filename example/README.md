@@ -36,7 +36,7 @@ Taps a button → shows an iOS-style modal with country list → selects a count
 ## 📸 Preview
 
 <p align="center">
-  <img src="https://github.com/UmangPandav/cupertino_country_picker/blob/master/demo.mp4" width="300"  alt=""/>
+  <img src="https://github.com/UmangPandav/cupertino_country_picker/blob/master/demo.gif" width="300"  alt=""/>
 </p>
 
 ---
